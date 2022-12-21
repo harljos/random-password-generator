@@ -14,6 +14,8 @@ Press the "Generate Password" button and the user will be prompted to give crite
 
 ![random-password-generator-screenshot](images/random-password-generator-screenshot.png)
 
+https://harljos.github.io/random-password-generator/
+
 ## Credits
 
 N/A
