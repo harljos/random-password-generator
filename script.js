@@ -3,30 +3,37 @@ var generateBtn = document.querySelector("#generate");
 // call variables for arrays for letters, numbers, and special characters
 var numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-var specialChars = [' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', ':', ';', '<', '>', '?', '@', '[', ']', '^'];
+var specialChars = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', ':', ';', '<', '>', '?', '@', '[', ']', '^', '_', '`', '{', '}', '|', '~'];
 
-// Generates random number
+// Generates random character using Math.random function to choose an integer choosing 
+// from the first index 0 to the last index at the end of the list for number, letters, and special characters
 function generateRandNum() {
-  var rand = Math.floor(Math.random() * ((numbers.length - 1) - 0) + 0);
+  var rand = Math.floor(Math.random() * (numbers.length - 0) + 0);
   return numbers[rand];
 }
 
-// Generates random letter
+
 function generateRandChar() {
-  var rand = Math.floor(Math.random() * ((letters.length - 1) - 0) + 0);
+  var rand = Math.floor(Math.random() * (letters.length - 0) + 0);
   return letters[rand];
 }
 
-// Generates random spcial character
+
 function generateRandSpecialChar() {
-  var rand = Math.floor(Math.random() * ((specialChars.length - 1) - 0) + 0);
+  var rand = Math.floor(Math.random() * (specialChars.length - 0) + 0);
   return specialChars[rand];
 }
 
-// make prompt box asking the user for passwork length and confirmation boxes asking the user if uppercase, lowercase, numeric, and spcial chars
+// asks the user for password criteria and returns the criteria
 function askUser() {
   var passwordLength = window.prompt("How many characters would you like your password to be?");
-  if (passwordLength < 8) {
+
+  // checks that the user input is a number and that the number is inbetween 8 and 128
+  if (isNaN(passwordLength)) {
+    window.alert("input must be a number");
+    return;
+  }
+  else if (passwordLength < 8) {
     window.alert("password has to be at least 8 characters");
     return;
   }
@@ -35,11 +42,13 @@ function askUser() {
     return;
   }
 
+  // asks the user for uppercase letter, lowercase letters, number, and special characters
   var uppercase = window.confirm("Would you like uppercase letters in your password");
   var lowercase = window.confirm("Would you like lowercase letters in your password");
   var numbers = window.confirm("Would you like numbers in your password");
   var spcialChars = window.confirm("Would you like special characters in your password");
 
+  // ensures the user has selecter at least one of the criteria
   if (!uppercase && !lowercase && !numbers && !spcialChars) {
     window.alert("You need to choose yes to at least one of the conditions");
     return;
@@ -48,8 +57,10 @@ function askUser() {
   return [uppercase, lowercase, numbers, spcialChars, passwordLength];
 }
 
-// write a generatePassword function
+// generates password off given criteria in parameters
 function generatePassword(upper, lower, num, char, length) {
+  // uses givern criteria in condionals then uses Math.random function to choose a character at random from givern criteria
+  // add adds on to the passwork variable and returns it
   var password = "";
   if (upper && lower && num && char) {
     for (var i = 0; i < length; i++) {
@@ -107,7 +118,7 @@ function generatePassword(upper, lower, num, char, length) {
         password += generateRandChar().toUpperCase();
       }
       else if (rand == 1) {
-        password += generateRandChar();
+        password += generateRandSpecialChar();
       }
       else {
         password += generateRandNum();
@@ -222,14 +233,14 @@ function generatePassword(upper, lower, num, char, length) {
   }
   else if (char) {
     for (var i = 0; i < length; i++) {
-      password += generateRandChar();
+      password += generateRandSpecialChar();
     }
     return password;
   }
 }
 
 
-// Write password to the #password input
+// Writes password to the #password input
 function writePassword() {
   var criteria = askUser();
   var password = generatePassword(criteria[0], criteria[1], criteria[2], criteria[3], criteria[4]);
@@ -239,6 +250,6 @@ function writePassword() {
 
 }
 
-// Add event listener to generate button
+// when generate password button is clicked it calld the writePassword function
 generateBtn.addEventListener("click", writePassword);
 
